@@ -67,6 +67,8 @@ uint16_t ButtonMatrix = 0;
 uint32_t Bttx = 0;
 uint32_t Btt_C = 0 ;
 uint32_t Btt_L = 0;
+uint32_t Check = 0;
+int state = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -129,13 +131,172 @@ int main(void)
 	  		if(Btt_L == 0 && Btt_C != 0){
 
 	  			Bttx = ButtonMatrix;
+	  			Check = 1;
 	  		}
 	  		else{
 	  			Bttx = 0;
+	  			Check = 0;
 	  		}
 	  		Btt_L = Btt_C;
-
 	  	  }
+
+	  	   switch(state){
+	  	  case 0:
+	  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+		  	  if(Bttx == 512 && Check == 1)
+		  	  {
+		  		state = 1;
+		  	  }
+		  	  else if(Bttx!=512&& Check == 1){
+		  		  state = 13;
+		  	  }
+		  	  break;
+/////////////////////////////////////////////////////////////////////////////////
+	  	  case 1:
+	  		if(Bttx == 2&& Check == 1)
+	  		{
+	  			state = 2;
+	  		}
+		  	else if(Bttx!=2&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+/////////////////////////////////////////////////////////////////////////////////
+	  	  case 2:
+			if(Bttx == 1024&& Check == 1)
+			{
+				state = 3;
+			}
+		  	else if(Bttx!=1024&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+/////////////////////////////////////////////////////////////////////////////////
+	  	  case 3:
+			if(Bttx == 2&& Check == 1)
+			{
+				state = 4;
+			}
+		  	else if(Bttx!=2&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+///////////////////////////////////////////////////////////////////////////////////
+	  	  case 4:
+			if(Bttx == 8&& Check == 1)
+			{
+				state = 5;
+			}
+		  	else if(Bttx!=8&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+///////////////////////////////////////////////////////////////////////////////////
+	  	  case 5:
+			if(Bttx == 32&& Check == 1)
+			{
+				state = 6;
+			}
+		  	else if(Bttx!=32&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+//////////////////////////////////////////////////////////////////////////////////
+	  	  case 6:
+			if(Bttx == 8&& Check == 1)
+			{
+				state = 7;
+			}
+		  	else if(Bttx!=8&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+//////////////////////////////////////////////////////////////////////////////////
+	  	  case 7:
+			if(Bttx == 8&& Check == 1)
+			{
+				state = 8;
+			}
+		  	else if(Bttx!=8&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+/////////////////////////////////////////////////////////////////////////////////
+	  	  case 8:
+			if(Bttx == 8&& Check == 1)
+			{
+				state = 9;
+			}
+		  	else if(Bttx!=2&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+/////////////////////////////////////////////////////////////////////////////////
+	  	  case 9:
+			if(Bttx == 2&& Check == 1)
+			{
+				state = 10;
+			}
+		  	else if(Bttx!=2&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+/////////////////////////////////////////////////////////////////////////////////
+	  	  case 10:
+			if(Bttx == 64&& Check == 1)
+			{
+				state = 11;
+			}
+		  	else if(Bttx!=64&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+////////////////////////////////////////////////////////////////////////////////
+	  	  case 11:
+			if(Bttx == 32768&& Check == 1)
+			{
+				state = 12;
+			}
+		  	else if(Bttx!=32768&& Check == 1)
+		  	{
+		  		state = 13;
+		  	}
+			break;
+///////////////////////////////////////////////////////////////////////////////
+	  	  case 12:
+	  		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	  		  if (Bttx == 4096&& Check == 1){
+	  			  state = 0;
+	  		  }
+	  		  else if(Bttx!=4096&& Check == 1)
+	  		  {
+	  			state = 13;
+	  		  }
+	  	  break;
+//////////////////////////////////////////////////////////////////////////////
+	  	case 13:
+				if(Bttx == 4096 && Check == 1)
+				{
+					state = 0;
+				}
+				else if(Bttx!=4096 && Check == 1)
+			   {
+				state = 13;
+			  }
+		break;
+
+  }
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
