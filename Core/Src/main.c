@@ -64,10 +64,10 @@ PortPin L[4] =
 };
 
 uint16_t ButtonMatrix = 0;
-uint32_t Bttx = 0;
-uint32_t Btt_C = 0 ;
-uint32_t Btt_L = 0;
-uint32_t Check = 0;
+//uint32_t ButtonMatrix = 0;
+int Btt_C = 0 ;
+int Btt_L = 0;
+int Check = 0;
 int state = 0;
 /* USER CODE END PV */
 
@@ -124,176 +124,182 @@ int main(void)
     /* USER CODE END WHILE */
 	  static uint32_t timestamp = 0;
 	  	  if(HAL_GetTick()>=timestamp){
-	  		  timestamp = HAL_GetTick() + 500;
+	  		  timestamp = HAL_GetTick() + 10;
 	  		  ReadMatrixButton_1Row();
+	  	  }
 
 	  		Btt_C = ButtonMatrix;
 	  		if(Btt_L == 0 && Btt_C != 0){
 
-	  			Bttx = ButtonMatrix;
+	  			//Bttx = ButtonMatrix;
 	  			Check = 1;
 	  		}
 	  		else{
-	  			Bttx = 0;
+	  			//Bttx = 0;
 	  			Check = 0;
 	  		}
 	  		Btt_L = Btt_C;
-	  	  }
 
-	  	   switch(state){
+
+	  	  if(Check !=0){
+	  	  switch(state){
 	  	  case 0:
-	  		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-		  	  if(Bttx == 512 && Check == 1)
+
+		  	  if(ButtonMatrix == 512 && Check == 1)
 		  	  {
 		  		state = 1;
 		  	  }
-		  	  else if(Bttx!=512&& Check == 1){
+		  	  else if(ButtonMatrix!=512&& Check == 1){
 		  		  state = 13;
 		  	  }
 		  	  break;
 /////////////////////////////////////////////////////////////////////////////////
 	  	  case 1:
-	  		if(Bttx == 2&& Check == 1)
+	  		if(ButtonMatrix == 2 && Check == 1)
 	  		{
 	  			state = 2;
 	  		}
-		  	else if(Bttx!=2&& Check == 1)
+		  	else if(ButtonMatrix!=2&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 /////////////////////////////////////////////////////////////////////////////////
 	  	  case 2:
-			if(Bttx == 1024&& Check == 1)
+			if(ButtonMatrix == 1024&& Check == 1)
 			{
 				state = 3;
 			}
-		  	else if(Bttx!=1024&& Check == 1)
+		  	else if(ButtonMatrix!=1024&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 /////////////////////////////////////////////////////////////////////////////////
 	  	  case 3:
-			if(Bttx == 2&& Check == 1)
+			if(ButtonMatrix == 2&& Check == 1)
 			{
 				state = 4;
 			}
-		  	else if(Bttx!=2&& Check == 1)
+		  	else if(ButtonMatrix!=2&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 ///////////////////////////////////////////////////////////////////////////////////
 	  	  case 4:
-			if(Bttx == 8&& Check == 1)
+			if(ButtonMatrix == 8&& Check == 1)
 			{
 				state = 5;
 			}
-		  	else if(Bttx!=8&& Check == 1)
+		  	else if(ButtonMatrix!=8&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 ///////////////////////////////////////////////////////////////////////////////////
 	  	  case 5:
-			if(Bttx == 32&& Check == 1)
+			if(ButtonMatrix == 32&& Check == 1)
 			{
 				state = 6;
 			}
-		  	else if(Bttx!=32&& Check == 1)
+		  	else if(ButtonMatrix!=32&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 //////////////////////////////////////////////////////////////////////////////////
 	  	  case 6:
-			if(Bttx == 8&& Check == 1)
+			if(ButtonMatrix == 8&& Check == 1)
 			{
 				state = 7;
 			}
-		  	else if(Bttx!=8&& Check == 1)
+		  	else if(ButtonMatrix!=8&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 //////////////////////////////////////////////////////////////////////////////////
 	  	  case 7:
-			if(Bttx == 8&& Check == 1)
+			if(ButtonMatrix == 8&& Check == 1)
 			{
 				state = 8;
 			}
-		  	else if(Bttx!=8&& Check == 1)
+		  	else if(ButtonMatrix!=8&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 /////////////////////////////////////////////////////////////////////////////////
 	  	  case 8:
-			if(Bttx == 8&& Check == 1)
+			if(ButtonMatrix == 8&& Check == 1)
 			{
 				state = 9;
 			}
-		  	else if(Bttx!=2&& Check == 1)
+		  	else if(ButtonMatrix!=2&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 /////////////////////////////////////////////////////////////////////////////////
 	  	  case 9:
-			if(Bttx == 2&& Check == 1)
+			if(ButtonMatrix == 2&& Check == 1)
 			{
 				state = 10;
 			}
-		  	else if(Bttx!=2&& Check == 1)
+		  	else if(ButtonMatrix!=2&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 /////////////////////////////////////////////////////////////////////////////////
 	  	  case 10:
-			if(Bttx == 64&& Check == 1)
+			if(ButtonMatrix == 64&& Check == 1)
 			{
 				state = 11;
 			}
-		  	else if(Bttx!=64&& Check == 1)
+		  	else if(ButtonMatrix!=64&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 ////////////////////////////////////////////////////////////////////////////////
 	  	  case 11:
-			if(Bttx == 32768&& Check == 1)
-			{
+			if(ButtonMatrix == 32768&& Check == 1)
+			{	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 				state = 12;
 			}
-		  	else if(Bttx!=32768&& Check == 1)
+		  	else if(ButtonMatrix!=32768&& Check == 1)
 		  	{
 		  		state = 13;
 		  	}
 			break;
 ///////////////////////////////////////////////////////////////////////////////
 	  	  case 12:
-	  		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	  		  if (Bttx == 4096&& Check == 1){
+	  		  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	  		  if (ButtonMatrix == 4096&& Check == 1){
+	  			  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 	  			  state = 0;
 	  		  }
-	  		  else if(Bttx!=4096&& Check == 1)
+	  		  else if(ButtonMatrix!=4096&& Check == 1)
 	  		  {
 	  			state = 13;
 	  		  }
 	  	  break;
 //////////////////////////////////////////////////////////////////////////////
 	  	case 13:
-				if(Bttx == 4096 && Check == 1)
+				if(ButtonMatrix == 4096 && Check == 1)
 				{
 					state = 0;
 				}
-				else if(Bttx!=4096 && Check == 1)
-			   {
-				state = 13;
-			  }
+//				else if(ButtonMatrix!=4096 && Check == 1)
+//			   {
+//				state = 13;
+//			  }
 		break;
+
+		Check = 0;
+	  }
 
   }
 
