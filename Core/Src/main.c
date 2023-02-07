@@ -64,6 +64,9 @@ PortPin L[4] =
 };
 
 uint16_t ButtonMatrix = 0;
+uint32_t Bttx = 0;
+uint32_t Btt_C = 0 ;
+uint32_t Btt_L = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -71,7 +74,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
-
+void ReadMatrixButton_1Row();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -119,8 +122,19 @@ int main(void)
     /* USER CODE END WHILE */
 	  static uint32_t timestamp = 0;
 	  	  if(HAL_GetTick()>=timestamp){
-	  		  timestamp = HAL_GetTick() + 10;
+	  		  timestamp = HAL_GetTick() + 500;
 	  		  ReadMatrixButton_1Row();
+
+	  		Btt_C = ButtonMatrix;
+	  		if(Btt_L == 0 && Btt_C != 0){
+
+	  			Bttx = ButtonMatrix;
+	  		}
+	  		else{
+	  			Bttx = 0;
+	  		}
+	  		Btt_L = Btt_C;
+
 	  	  }
     /* USER CODE BEGIN 3 */
   }
